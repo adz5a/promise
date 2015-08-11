@@ -8,12 +8,8 @@ var rejected = new Promise().reject( "ma raison" ),
     accepted = new Promise().accept( "ma valeur" ),
     deferred = new Promise();
 
-rejected.then( undefined, function () {
-    return "une valeur";
-} ).then( function ( x ) {
-    console.log( x );
-} );
 
-p1.resolve( rejected );
 
-deferred.resolve( "une valeur" );
+rejected.then(function () { }, undefined).then(null, function () {
+    console.log("success");
+});
