@@ -9,11 +9,11 @@ var rejected = new Promise().reject( "ma raison" ),
     deferred = new Promise();
 
 
-deferred.then( function ( x ) {
-    console.log( x );
+var p2 = accepted.then( function () {
+    return undefined;
 } );
-console.log( "a" );
-rejected.then( null, function ( err ) {
-    console.log( err );
+
+p2.then( function ( value ) {
+    console.log( value );
 } );
 

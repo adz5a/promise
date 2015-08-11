@@ -3,6 +3,6 @@
         "promises-aplus-tests": "*"
     },
     "scripts": {
-        "test": "promises-aplus-tests lib/adapter.js --grep 2.3.3"
+        "test": "promises-aplus-tests lib/adapter.js --grep 2.3.4"
     }
 }
