@@ -1,11 +1,19 @@
 "use strict";
 
-var Promise = require("../lib/promise.js");
+var Promise = require( "../lib/promise.js" );
 
 var p1 = new Promise();
 
-p1.then(function (x) {
-    console.log("fulfilled with " + x);
-});
+var rejected = new Promise().reject( "ma raison" ),
+    accepted = new Promise().accept( "ma valeur" ),
+    deferred = new Promise();
 
-p1.resolve("x");
+rejected.then( undefined, function () {
+    return "une valeur";
+} ).then( function ( x ) {
+    console.log( x );
+} );
+
+p1.resolve( rejected );
+
+deferred.resolve( "une valeur" );
