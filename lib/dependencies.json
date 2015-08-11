@@ -3,5 +3,7 @@
     "accept_reject": "./func/accept_reject.js",
     "then": "./func/then.js",
     "valid_states": "./VALID_STATES.js",
-    "promise": "./promise.js"
+    "promise": "./promise.js",
+    "promiseConstructor": "./promiseConstructor.js",
+    "promisePrototype": "./promisePrototype.js"
 }
