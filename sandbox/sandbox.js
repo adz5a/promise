@@ -21,3 +21,20 @@ try {
 } catch ( err ) {
     console.log( err );
 }
+
+var b = {
+    "b": {
+        "c": "asqdsq"
+    }
+};
+
+function change ( val ) {
+    val = 6623;
+}
+
+change( b.b );
+
+console.log( b.b );
+
+
+
