@@ -1,6 +1,6 @@
 "use strict";
 
-var Promise = require( "./promise.js" );
+var Promise = require( "./../lib/promise.js" );
 
 
 
