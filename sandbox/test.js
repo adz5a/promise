@@ -1,19 +1,12 @@
 "use strict";
 
-var Promise = require( "../lib/promise.js" );
+var promise = window.promise;
 
-var p1 = new Promise();
+var p1 = promise.deferred().promise,
+    p2 = p1.then( function ( val ) {
+        console.log( "ma valuer est dans le browser " + val );
+    } );
 
-var rejected = new Promise().reject( "ma raison" ),
-    accepted = new Promise().accept( "ma valeur" ),
-    deferred = new Promise();
-
-
-var p2 = accepted.then( function () {
-    return undefined;
-} );
-
-p2.then( function ( value ) {
-    console.log( value );
-} );
-
+setTimeout(function( ) {
+    p1.resolve( "YOLO" );
+}, 1000);
