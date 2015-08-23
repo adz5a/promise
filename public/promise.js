@@ -3,11 +3,11 @@
 
     var Promise = require( "./../lib/promise.js" );
 
-
-
-    global.promise = function getPromise () {
+    function getPromise () {
         return new Promise();
-    };
+    }
+
+    global.promise = getPromise;
 
     if ( module ) {
         module.exports = getPromise;
