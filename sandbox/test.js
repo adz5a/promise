@@ -1,6 +1,6 @@
-(function (promise) {
+(function ( defer ) {
     "use strict";
-    var promise = promise.deferred();
+    console.log( "hello" );
 
 
-} (promise));
+}( defer ));

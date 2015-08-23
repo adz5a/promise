@@ -397,21 +397,23 @@ module.exports = {
     "unit": unit
 };
 },{}],9:[function(require,module,exports){
+(function (global){
 (function ( root ) {
     "use strict";
 
     var Promise = require( "./../lib/promise.js" );
 
-    var defer = root.defer || {};
 
-    defer.promise = function () {
+
+    global.promise = function getPromise () {
         return new Promise();
     };
 
     if ( module ) {
-        module.exports = defer;
+        module.exports = getPromise;
     }
 
 
 }( this ));
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./../lib/promise.js":5}]},{},[9]);

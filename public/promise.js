@@ -3,14 +3,14 @@
 
     var Promise = require( "./../lib/promise.js" );
 
-    var defer = root.defer || {};
 
-    defer.promise = function () {
+
+    global.promise = function getPromise () {
         return new Promise();
     };
 
     if ( module ) {
-        module.exports = defer;
+        module.exports = getPromise;
     }
 
 
