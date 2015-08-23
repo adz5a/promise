@@ -1,25 +1,17 @@
-"use strict";
+(function ( root ) {
+    "use strict";
 
-var Promise = require( "./../lib/promise.js" );
+    var Promise = require( "./../lib/promise.js" );
 
+    var defer = root.defer || {};
 
-var api = {
-    "deferred": function () {
-        return new Promise;
-    },
-    "rejected": function ( reason ) {
-        return new Promise().reject( reason );
-    },
-    "resolved": function () {
-        return new Promise().resolve( value );
+    defer.promise = function () {
+        return new Promise();
+    };
+
+    if ( module ) {
+        module.exports = defer;
     }
-};
 
 
-var promiseModule = window.promise || {};
-
-promiseModule.deferred = api.deferred;
-promiseModule.rejected = api.rejected;
-promiseModule.resolved = api.resolved;
-
-window.promise = promiseModule;
+}( this ));
