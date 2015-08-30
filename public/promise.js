@@ -8,7 +8,7 @@
         return new Promise();
     }
 
-    global.promise = getPromise;
+    root.promise = getPromise;
 
     if ( module ) {
         module.exports = {
