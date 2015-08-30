@@ -5,7 +5,7 @@
 
     function wrapThen ( promise ) {
         return function ( a, b ) {
-            return deferred( promise.then( a, b ) );
+            return deferred( promise.then( a, b ) ).deferred;
         };
     }
 
