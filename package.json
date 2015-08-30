@@ -13,5 +13,9 @@
     "main": "./public/promise.js",
     "dependencies": {
         "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://antoinestoretail@bitbucket.org/antoinestoretail/promise.git"
     }
 }
