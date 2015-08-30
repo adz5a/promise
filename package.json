@@ -1,21 +1,18 @@
 {
-    "devDependencies": {
-        "browserify": "^11.0.1",
-        "promises-aplus-tests": "*"
+    "name": "promise",
+    "version": "0.0.0",
+    "description": "TODO",
+    "main": "./public/promise.js",
+    "directories": {
+        "test": "test"
     },
     "scripts": {
-        "test": "promises-aplus-tests test/adapter.js"
-    },
-    "directories": {
-        "lib": "./lib",
-        "public": "./public"
-    },
-    "main": "./public/promise.js",
-    "dependencies": {
-        "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
         "url": "https://antoinestoretail@bitbucket.org/antoinestoretail/promise.git"
-    }
+    },
+    "author": "Antoine Zimmermann",
+    "license": "ISC"
 }
