@@ -9,7 +9,7 @@
     "directories": {
         "lib": "./lib"
     },
-    "main": "./lib/promise.js",
+    "main": "./public/promise.js",
     "dependencies": {
         "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
     }
