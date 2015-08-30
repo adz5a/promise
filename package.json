@@ -1,16 +1,16 @@
 {
-  "devDependencies": {
-    "browserify": "^11.0.1",
-    "promises-aplus-tests": "*"
-  },
-  "scripts": {
-    "test": "promises-aplus-tests test/adapter.js"
-  },
-  "directories": {
-    "lib": "./lib"
-  },
-  "main": "./lib/promise.js",
-  "dependencies": {
-    "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
-  }
+    "devDependencies": {
+        "browserify": "^11.0.1",
+        "promises-aplus-tests": "*"
+    },
+    "scripts": {
+        "test": "promises-aplus-tests test/adapter.js"
+    },
+    "directories": {
+        "lib": "./lib"
+    },
+    "main": "./lib/promise.js",
+    "dependencies": {
+        "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
+    }
 }
