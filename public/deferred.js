@@ -4,34 +4,30 @@
     var utils = require( "utils" );
 
     function wrapThen ( promise ) {
-
-        var wrappedThen = utils.curry( function ( promise, a, b ) {
-            return wrapThen( promise.then( a, b ) );
-        }, promise );
-
-        return {
-            "then": wrappedThen
-        }
+        return function ( a, b ) {
+            return deferred( promise.then( a, b ) );
+        };
     }
 
-    function deferred () {
-        var promise = new Promise();
+    function deferred ( promise ) {
+        var promise = (typeof promise === "undefined" ? new Promise : promise);
 
-
-        return {
-            "deferred": wrapThen( promise ),
-            "always": function ( callback ) {
-
-
+        var deferred = {
+            "then": wrapThen( promise ),
+            "always": function () {
                 return wrapThen( promise.then( function ( value ) {
                     callback.call( undefined, null, value );
                 }, function ( err ) {
                     callback.call( undefined, err, null );
                 } ) );
-            },
-            "promise":promise
+            }
+        };
+
+        return {
+            "deferred": deferred,
+            "promise": promise
         };
     }
 
     module.exports = deferred;
-} ());
+}());
