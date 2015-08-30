@@ -10,7 +10,7 @@
     }
 
     function deferred ( promise ) {
-        var promise = (typeof promise === "undefined" ? new Promise : promise);
+        promise = (typeof promise === "undefined" ? new Promise : promise);
 
         var deferred = {
             "then": wrapThen( promise ),
