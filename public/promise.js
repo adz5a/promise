@@ -1,4 +1,4 @@
-(function ( root ) {
+(function ( ) {
     "use strict";
 
     var Promise = require( "./../lib/promise.js" ),
@@ -8,7 +8,6 @@
         return new Promise();
     }
 
-    root.promise = getPromise;
 
     if ( module ) {
         module.exports = {
@@ -18,4 +17,4 @@
     }
 
 
-}( this ));
+}(  ));
