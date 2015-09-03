@@ -1,4 +1,4 @@
-(function ( ) {
+(function () {
     "use strict";
 
     var Promise = require( "./../lib/promise.js" ),
@@ -17,4 +17,4 @@
     }
 
 
-}(  ));
+}());
