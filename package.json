@@ -15,7 +15,10 @@
     },
     "author": "Antoine Zimmermann",
     "license": "ISC",
-    "dependencies": {
-        "utils": "git+https://antoinestoretail@bitbucket.org/antoinestoretail/utils.git"
+    "scripts" {
+        "test": "promises-aplus-tests ./test/adapter.js"
+    }, 
+    "devDependencies": {
+        "promises-aplus-tests": "*"
     }
 }
