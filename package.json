@@ -15,8 +15,8 @@
     },
     "author": "Antoine Zimmermann",
     "license": "ISC",
-    "scripts" {
-        "test": "promises-aplus-tests ./test/adapter.js"
+    "scripts": {
+        "test": "promises-aplus-tests ./test/adapter.js --grep 2.2.1"
     }, 
     "devDependencies": {
         "promises-aplus-tests": "*"
