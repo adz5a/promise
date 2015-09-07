@@ -1,12 +1,6 @@
-var promise = require("./../lib/promise.js");
+var promise = require("./adapter.js");
 
 
-var deferred = promise.defer();
+var rejected = promise.rejected("dummy");
 
-console.log(deferred);
-
-deferred.promise.then(function (value) {
-    console.log(value);
-});
-console.log("got here");
-deferred.resolve("yolo value");
+rejected.then(function () {}, undefined).then(function () { console.log("should not be here"); }, function () {console.log("done")});
