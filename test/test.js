@@ -7,9 +7,9 @@ var deferred = adapter.deferred;
 
 var other = { other: "other" }; // a value we don't want to be strict equal to
 
-var thenable = {};
+var thenables = {};
 
-thenable.fulfilled = {
+thenables.fulfilled = {
     "a synchronously-fulfilled custom thenable": function ( value ) {
         return {
             then: function ( onFulfilled ) {
@@ -76,7 +76,7 @@ thenable.fulfilled = {
     }
 };
 
-thenable.rejected = {
+thenables.rejected = {
     "a synchronously-rejected custom thenable": function ( reason ) {
         return {
             then: function ( onFulfilled, onRejected ) {
@@ -144,37 +144,73 @@ thenable.rejected = {
 };
 
 //
+var sentinel = "sentinel";
+
+
 function testPromiseResolution ( xFactory, test ) {
-    var p1 = resolved( "dummy" ).then( function onBasePromiseFulfilled () {
+    //"via return from a fulfilled promise"
+    var promise1 = resolved( "dummy" ).then( function onBasePromiseFulfilled () {
         return xFactory();
     } );
 
-    test( p1 );
+    test( promise1 );
 
-    var p2 = promise.rejected( "d" ).then( null, function onBasePromiseRejected () {
+
+    //"via return from a rejected promise"
+    var promise2 = rejected( "dummy" ).then( null, function onBasePromiseRejected () {
         return xFactory();
     } );
 
-    test( p2 );
+    test( promise2 );
+
 }
 
-var sentinel = "sentinel";
-testPromiseResolution( function xFactory () {
-    var d = deferred();
-    setTimeout( function () {
-        d.resolve( sentinel );
-    }, 50 );
+function testCallingResolvePromise ( yFactory, stringRepresentation, test ) {
+    //"`then` calls `resolvePromise` synchronously"
+    function xFactory1 () {
+        return {
+            then: function ( resolvePromise ) {
+                resolvePromise( yFactory() );
+            }
+        };
+    }
 
-    return {
-        then: function ( resolvePromise ) {
-            resolvePromise( d.promise );
-            throw other;
+    testPromiseResolution( xFactory1, test );
+
+    //"`then` calls `resolvePromise` asynchronously"
+    function xFactory2 () {
+        return {
+            then: function ( resolvePromise ) {
+                setTimeout( function () {
+                    resolvePromise( yFactory() );
+                }, 0 );
+            }
+        };
+    }
+
+    testPromiseResolution( xFactory2, test );
+}
+
+
+function testCallingResolvePromiseFulfillsWith ( yFactory, stringRepresentation, fulfillmentValue ) {
+    testCallingResolvePromise( yFactory, stringRepresentation, function ( promise ) {
+        promise.then( function onPromiseFulfilled ( value ) {
+            if (value !== "sentinel") console.log(stringRepresentation);
+        } );
+    } );
+}
+Object.keys( thenables.fulfilled ).forEach( function ( outerStringRepresentation ) {
+    var outerThenableFactory = thenables.fulfilled[outerStringRepresentation];
+
+    Object.keys( thenables.fulfilled ).forEach( function ( innerStringRepresentation ) {
+        var innerThenableFactory = thenables.fulfilled[innerStringRepresentation];
+
+        var stringRepresentation = outerStringRepresentation + " for " + innerStringRepresentation;
+
+        function yFactory () {
+            return outerThenableFactory( innerThenableFactory( sentinel ) );
         }
-    };
-}, function ( promise ) {
-    promise.then( function ( value ) {
-        console.log( "done" );
-        console.log( sentinel );
-        console.log( value );
+
+        testCallingResolvePromiseFulfillsWith( yFactory, stringRepresentation, "sentinel" );
     } );
 } );
