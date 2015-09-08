@@ -1,6 +1,10 @@
 (function () {
     "use strict";
-    var promise = require("./../lib/promise.js");
+
+    var p = require.resolve( "./../lib/promise.js" );
+    if ( p ) delete require.cache[p];
+
+    var promise = require( "./../lib/promise.js" );
 
 
     module.exports = {
@@ -8,10 +12,10 @@
             return promise.defer();
         },
         "resolved": function ( value ) {
-            return promise.defer().resolve(value);
+            return promise.defer().resolve( value );
         },
         "rejected": function ( reason ) {
-            return promise.defer().reject(reason);
+            return promise.defer().reject( reason );
         }
     };
-} ());
+}());
