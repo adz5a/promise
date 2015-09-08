@@ -4,7 +4,8 @@
     "description": "TODO",
     "main": "./public/promise.js",
     "directories": {
-        "test": "test"
+        "test": "test",
+        "lib": "lib"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,7 +17,7 @@
     "author": "Antoine Zimmermann",
     "license": "ISC",
     "scripts": {
-        "test": "promises-aplus-tests ./test/adapter.js --grep 2.3.3"
+        "test": "promises-aplus-tests ./test/adapter.js --grep 2.3.3.3.4.1"
     }, 
     "devDependencies": {
         "promises-aplus-tests": "*"
