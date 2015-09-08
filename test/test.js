@@ -1,25 +1,180 @@
 var promise = require( "./adapter.js" );
 
+var adapter = promise;
+var resolved = adapter.resolved;
+var rejected = adapter.rejected;
+var deferred = adapter.deferred;
 
-var rejected = promise.rejected( "dummy" );
+var other = { other: "other" }; // a value we don't want to be strict equal to
 
-rejected.then( function () {
-}, undefined ).then( function () {
-    console.log( "should not be here" );
-}, function ( reason ) {
-    console.log( reason )
-} );
+var thenable = {};
 
+thenable.fulfilled = {
+    "a synchronously-fulfilled custom thenable": function ( value ) {
+        return {
+            then: function ( onFulfilled ) {
+                onFulfilled( value );
+            }
+        };
+    },
 
-var resolved = promise.resolved( "resolved" ).then( function () {
+    "an asynchronously-fulfilled custom thenable": function ( value ) {
+        return {
+            then: function ( onFulfilled ) {
+                setTimeout( function () {
+                    onFulfilled( value );
+                }, 0 );
+            }
+        };
+    },
+
+    "a synchronously-fulfilled one-time thenable": function ( value ) {
+        var numberOfTimesThenRetrieved = 0;
+        return Object.create( null, {
+            then: {
+                get: function () {
+                    if ( numberOfTimesThenRetrieved === 0 ) {
+                        ++numberOfTimesThenRetrieved;
+                        return function ( onFulfilled ) {
+                            onFulfilled( value );
+                        };
+                    }
+                    return null;
+                }
+            }
+        } );
+    },
+
+    "a thenable that tries to fulfill twice": function ( value ) {
+        return {
+            then: function ( onFulfilled ) {
+                onFulfilled( value );
+                onFulfilled( other );
+            }
+        };
+    },
+
+    "a thenable that fulfills but then throws": function ( value ) {
+        return {
+            then: function ( onFulfilled ) {
+                onFulfilled( value );
+                throw other;
+            }
+        };
+    },
+
+    "an already-fulfilled promise": function ( value ) {
+        return resolved( value );
+    },
+
+    "an eventually-fulfilled promise": function ( value ) {
+        var d = deferred();
+        setTimeout( function () {
+            d.resolve( value );
+        }, 50 );
+        return d.promise;
+    }
+};
+
+thenable.rejected = {
+    "a synchronously-rejected custom thenable": function ( reason ) {
+        return {
+            then: function ( onFulfilled, onRejected ) {
+                onRejected( reason );
+            }
+        };
+    },
+
+    "an asynchronously-rejected custom thenable": function ( reason ) {
+        return {
+            then: function ( onFulfilled, onRejected ) {
+                setTimeout( function () {
+                    onRejected( reason );
+                }, 0 );
+            }
+        };
+    },
+
+    "a synchronously-rejected one-time thenable": function ( reason ) {
+        var numberOfTimesThenRetrieved = 0;
+        return Object.create( null, {
+            then: {
+                get: function () {
+                    if ( numberOfTimesThenRetrieved === 0 ) {
+                        ++numberOfTimesThenRetrieved;
+                        return function ( onFulfilled, onRejected ) {
+                            onRejected( reason );
+                        };
+                    }
+                    return null;
+                }
+            }
+        } );
+    },
+
+    "a thenable that immediately throws in `then`": function ( reason ) {
+        return {
+            then: function () {
+                throw reason;
+            }
+        };
+    },
+
+    "an object with a throwing `then` accessor": function ( reason ) {
+        return Object.create( null, {
+            then: {
+                get: function () {
+                    throw reason;
+                }
+            }
+        } );
+    },
+
+    "an already-rejected promise": function ( reason ) {
+        return rejected( reason );
+    },
+
+    "an eventually-rejected promise": function ( reason ) {
+        var d = deferred();
+        setTimeout( function () {
+            d.reject( reason );
+        }, 50 );
+        return d.promise;
+    }
+};
+
+//
+function testPromiseResolution ( xFactory, test ) {
+    var p1 = resolved( "dummy" ).then( function onBasePromiseFulfilled () {
+        return xFactory();
+    } );
+
+    test( p1 );
+
+    var p2 = promise.rejected( "d" ).then( null, function onBasePromiseRejected () {
+        return xFactory();
+    } );
+
+    test( p2 );
+}
+
+var sentinel = "sentinel";
+testPromiseResolution( function xFactory () {
+    var d = deferred();
+    setTimeout( function () {
+        d.resolve( sentinel );
+    }, 50 );
+
     return {
-        "then": function ( a, b ) {
-            a( "une autre valeur" );
-            setTimeout( function () {
-                throw Error( "une erreur" );
-            }, 0 );
+        then: function ( resolvePromise ) {
+            resolvePromise( d.promise );
+            throw other;
         }
     };
-} ).then( function ( v ) {
-    console.log( v );
+}, function ( promise ) {
+    promise.then( function ( value ) {
+        console.log( "done" );
+        console.log( sentinel );
+        console.log( value );
+    } );
 } );
