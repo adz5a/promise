@@ -1,14 +1,11 @@
 {
     "name": "promise",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "TODO",
     "main": "./lib/promise.js",
     "directories": {
         "test": "test",
         "lib": "lib"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
