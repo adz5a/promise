@@ -9,7 +9,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://antoinestoretail@bitbucket.org/antoinestoretail/promise.git"
+        "url": "git@github.com:adz5a/promise.git"
     },
     "author": "Antoine Zimmermann",
     "license": "ISC",
