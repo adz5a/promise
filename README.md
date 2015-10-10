@@ -1,3 +1,2 @@
-# README #
-
-TODO
+# promise
+promises following A+ specs
