@@ -1,11 +1,12 @@
 "use strict";
 var promise = require("promise");//or any other promise library
 
-var wrappedAjax
+var wrappedAjax;
+
 function wrapAjax($) {
     // $ : jQuery
     
-    if (wrappedAjax) return wrappedAjax
+    if (wrappedAjax) return wrappedAjax;
     
     wrappedAjax = function (o) {
         
