@@ -9,7 +9,11 @@
 
     module.exports = {
         "deferred": function () {
-            return promise();
+            var p = promise();
+
+            p.promise = p;
+
+            return p;
         },
         "resolved": function ( value ) {
             return promise().resolve( value );
