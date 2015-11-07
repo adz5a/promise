@@ -154,12 +154,13 @@ FullPromise.prototype.reject = function ( r ) {
     return transitionTo( this, REJECTED, r );
 };
 
-var _p_ = module.exports = exports = function () {
-    return new FullPromise();
+module.exports = exports = {
+    "Promise": Promise,
+    "FullPromise": FullPromise,
+    "reject": function ( promise, reason ) {
+        return transitionTo( promise, -1, reason );
+    },
+    "resolve": function ( promise, value ) {
+        return resolvePromise( promise, value );
+    }
 };
-
-_p_.reject = function ( promise, reason ) {
-    return transitionTo( promise, REJECTED, reason );
-};
-
-_p_.resolve = resolvePromise;
