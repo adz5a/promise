@@ -1,11 +1,10 @@
 (function () {
     "use strict";
 
-    var p = require.resolve( "./../lib/promise.js" );
+    var p = require.resolve( "./../src/core.js" );
     if ( p ) delete require.cache[p];
 
-    var promise = require( "./../lib/promise.js" );
-
+    var promise = require( "../src/promise.js" );
 
     module.exports = {
         "deferred": function () {

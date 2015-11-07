@@ -140,8 +140,14 @@ Promise.prototype.fail = function ( a ) {
     return this.then( null, a );
 };
 
-function FullPromise () {
-    Promise.apply( this, arguments );
+function FullPromise ( o ) {
+    var self = this;
+    Promise.apply( self, arguments );
+    if ( typeof o === "object" && typeof o.timeout === "number" ) {
+        setTimeout( function () {
+            self.reject( new Error( "Promise : timeout " + o.timeout ) );
+        } );
+    }
 }
 
 FullPromise.prototype = Promise.prototype;
@@ -158,9 +164,9 @@ module.exports = exports = {
     "Promise": Promise,
     "FullPromise": FullPromise,
     "reject": function ( promise, reason ) {
-        return transitionTo( promise, -1, reason );
+        return FullPromise.prototype.reject.call( promise, reason );
     },
     "resolve": function ( promise, value ) {
-        return resolvePromise( promise, value );
+        return FullPromise.prototype.resolve.call( promise, value );
     }
 };
