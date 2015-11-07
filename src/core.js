@@ -1,3 +1,4 @@
+// src/core.js
 "use strict";
 
 var

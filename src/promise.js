@@ -1,3 +1,4 @@
+// src/promise.js
 "use strict";
 var core = require( "./core.js" );
 
