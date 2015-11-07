@@ -107,7 +107,7 @@ function executeHandlers ( future, prevVal, prevState ) {
 }
 
 
-function Promise ( onFulfill, onRejection ) {
+function Thenable ( onFulfill, onRejection ) {
 
     //if an handler was passed, it is used, else the handler upon fulfillment will be according to the promise a+ specs 2.2.1
     var defaultCallbacks = thenCallbacks( this );
@@ -125,8 +125,8 @@ function Promise ( onFulfill, onRejection ) {
     this.value = void(0);
 }
 
-Promise.prototype.then = function ( a, b ) {
-    var nextPromise = new Promise( a, b );
+Thenable.prototype.then = function ( a, b ) {
+    var nextPromise = new Thenable( a, b );
 
     if ( this.state !== PENDING ) {
 
@@ -137,37 +137,31 @@ Promise.prototype.then = function ( a, b ) {
     return nextPromise;
 };
 
-Promise.prototype.fail = function ( a ) {
+Thenable.prototype.fail = function ( a ) {
     return this.then( null, a );
 };
 
-function FullPromise ( o ) {
+function Promise ( o ) {
     var self = this;
-    Promise.apply( self, arguments );
+    Thenable.apply( self, arguments );
     if ( typeof o === "object" && typeof o.timeout === "number" ) {
         setTimeout( function () {
-            self.reject( new Error( "Promise : timeout " + o.timeout ) );
+            self.reject( new Error( "Thenable : timeout " + o.timeout ) );
         } );
     }
 }
 
-FullPromise.prototype = Promise.prototype;
+Promise.prototype = new Thenable();
 
-FullPromise.prototype.resolve = function ( a ) {
+Promise.prototype.resolve = function ( a ) {
     return resolvePromise( this, a );
 };
 
-FullPromise.prototype.reject = function ( r ) {
+Promise.prototype.reject = function ( r ) {
     return transitionTo( this, REJECTED, r );
 };
 
 module.exports = exports = {
-    "Promise": Promise,
-    "FullPromise": FullPromise,
-    "reject": function ( promise, reason ) {
-        return FullPromise.prototype.reject.call( promise, reason );
-    },
-    "resolve": function ( promise, value ) {
-        return FullPromise.prototype.resolve.call( promise, value );
-    }
+    "Thenable": Thenable,
+    "Promise": Promise
 };

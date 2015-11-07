@@ -15,8 +15,8 @@ module.exports = exports = function ( promises ) {
     /*
      * promises = [promise]
      */
-    var p       = new core.FullPromise().resolve( {} );
-    var promise = new core.FullPromise();
+    var p       = new core.Promise().resolve( {} );
+    var promise = new core.Promise();
     var stack   = [];
     var i, l;
     for ( i = 0, l = promises.length; i < l; i = i + 1 ) {
