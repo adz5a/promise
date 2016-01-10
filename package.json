@@ -1,5 +1,5 @@
 {
-  "name": "promise",
+  "name": "defer",
   "version": "1.0.0",
   "description": "TODO",
   "main": "./src/promise.js",
